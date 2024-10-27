@@ -9,7 +9,7 @@ import streamlit as st
 working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Set the model path relative to the script
-model_path = f"{working_dir}/trained_model/plant_disease_prediction_model.h5"
+model_path = os.path.join(working_dir, 'plant-disease.h5')
 
 # Load the model
 model = tf.keras.models.load_model(model_path)
@@ -43,13 +43,6 @@ def predict_image_class(model, image_path, class_indices):
 # Streamlit App
 st.title('Plant Health Monitoring System')
 
-# Introduction text about plant disease prediction
-st.write("""
-### Welcome to the Plant Disease Prediction System!
-This application allows users to upload an image of a plant leaf, and using a deep learning model, it identifies whether the plant is healthy or suffering from a disease.
-Early detection of plant diseases can help farmers and gardeners take timely actions to prevent the spread of diseases and improve crop health.
-""")
-
 uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_image is not None:
@@ -64,4 +57,4 @@ if uploaded_image is not None:
         if st.button('Classify'):
             # Preprocess the uploaded image and predict the class
             prediction = predict_image_class(model, uploaded_image, class_indices)
-            st.success(f'Prediction: {str(prediction)}')
+            st.success(f'Prediction: {str(prediction)}'). 
