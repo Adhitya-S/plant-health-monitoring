@@ -43,6 +43,13 @@ def predict_image_class(model, image_path, class_indices):
 # Streamlit App
 st.title('Plant Health Monitoring System')
 
+# Introduction text about plant disease prediction
+st.write("""
+### Welcome to the Plant Disease Prediction System!
+This application allows users to upload an image of a plant leaf, and using a deep learning model, it identifies whether the plant is healthy or suffering from a disease.
+Early detection of plant diseases can help farmers and gardeners take timely actions to prevent the spread of diseases and improve crop health.
+""")
+
 uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
 if uploaded_image is not None:
