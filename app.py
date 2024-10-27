@@ -1,24 +1,22 @@
 import os
 import json
 from PIL import Image
+
 import numpy as np
 import tensorflow as tf
 import streamlit as st
 
-# Set the working directory to the directory of the script
+
 working_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Set the model path relative to the script
 model_path = f"{working_dir}/trained_model/plant_disease_prediction_model.h5"
-
-# Load the model
+# Load the pre-trained model
 model = tf.keras.models.load_model(model_path)
 
-# Load the class names
-with open(os.path.join(working_dir, 'class_indices.json')) as f:
-    class_indices = json.load(f)
+# loading the class names
+class_indices = json.load(open(f"{working_dir}/class_indices.json"))
 
-# Function to load and preprocess the image using Pillow
+
+# Function to Load and Preprocess the Image using Pillow
 def load_and_preprocess_image(image_path, target_size=(224, 224)):
     # Load the image
     img = Image.open(image_path)
@@ -32,7 +30,8 @@ def load_and_preprocess_image(image_path, target_size=(224, 224)):
     img_array = img_array.astype('float32') / 255.
     return img_array
 
-# Function to predict the class of an image
+
+# Function to Predict the Class of an Image
 def predict_image_class(model, image_path, class_indices):
     preprocessed_img = load_and_preprocess_image(image_path)
     predictions = model.predict(preprocessed_img)
@@ -40,15 +39,9 @@ def predict_image_class(model, image_path, class_indices):
     predicted_class_name = class_indices[str(predicted_class_index)]
     return predicted_class_name
 
-# Streamlit App
-st.title('Plant Health Monitoring System')
 
-# Introduction text about plant disease prediction
-st.write("""
-### Welcome to the Plant Disease Prediction System!
-This application allows users to upload an image of a plant leaf, and using a deep learning model, it identifies whether the plant is healthy or suffering from a disease.
-Early detection of plant diseases can help farmers and gardeners take timely actions to prevent the spread of diseases and improve crop health.
-""")
+# Streamlit App
+st.title('Plant Disease Classifier')
 
 uploaded_image = st.file_uploader("Upload an image...", type=["jpg", "jpeg", "png"])
 
